@@ -1,4 +1,4 @@
-import PocketBase from "../pocketbase/js-sdk-0.13.0/dist/pocketbase.es.mjs";
+import PocketBase from "../pocketbase/js-sdk/dist/pocketbase.es.mjs";
 
 let serverURL = "https://eurotally-db.fly.dev";
 
