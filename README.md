@@ -2,12 +2,13 @@
 Score Eurovision songs with friends
 
 ## features
-- [ ] list of songs
-- [ ] overall score
-- [ ] server sync
-- [ ] "accounts"
-- [ ] see other votes
-- [ ] categories
+- [X] list of songs
+- [X] overall score
+- [X] server sync
+- [X] accounts
+- [X] custom name
+- [X] see other votes
+- [X] categories
 - [ ] notes
 - [ ] score release coordination
 - [ ] messaging
