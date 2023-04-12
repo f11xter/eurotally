@@ -219,7 +219,7 @@ function updateVote(category: string, score: number) {
 
 <template>
   <div class="container" :style="{ backgroundImage: backgroundImage }">
-    <main v-if="isLoaded" class="flow">
+    <main v-if="isLoaded" class="grid">
       <VoteCategory v-for="(c, index) in categories" :title="c" :votes="votes.filter(x => x.category === c)"
         :score="userVotes[c]" :key="c" @update-score="(score) => updateVote(c, score)">
         <i :class="icons[index]"></i>
@@ -245,13 +245,15 @@ function updateVote(category: string, score: number) {
     </div>
   </div>
 
-  <button type="button" @click="showAlertBanner('hi there', 'error')" style="position: absolute;bottom:1rem;">alert</button>
+  <button type="button" @click="showAlertBanner('hi there', 'error')"
+    style="position: absolute;bottom:1rem;">alert</button>
 </template>
 
 <style scoped>
 .container {
   --footer-height: 8rem;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -262,9 +264,11 @@ function updateVote(category: string, score: number) {
 
 main {
   flex: 1;
-  overflow: scroll;
+
   padding: 0.5rem;
   padding-bottom: calc(var(--footer-height) + 0.5rem);
+
+  overflow: scroll;
 }
 
 .bottomNav {
@@ -274,7 +278,7 @@ main {
   width: 100%;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   gap: 1rem;
 
@@ -290,10 +294,6 @@ nav>img {
   top: -2.5rem;
   left: 50%;
   translate: -50% 0;
-}
-
-nav>div {
-  flex: 1;
 }
 
 nav>div>* {

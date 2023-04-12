@@ -44,8 +44,10 @@ const avg = computed(() =>
 
 <style scoped>
 .vote-category-container {
-  /* --gap: 0.5em; */
+  width: 100%;
+  height: fit-content;
   padding: 1rem;
+  
   border-radius: 1rem;
   background-color: hsl(0 0% 100% / 0.8);
 }

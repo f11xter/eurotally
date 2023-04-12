@@ -33,6 +33,24 @@ i[class*="iconoir-"] {
   margin-top: var(--gap, 1em);
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap, 1em);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 .flex {
   display: flex;
 }

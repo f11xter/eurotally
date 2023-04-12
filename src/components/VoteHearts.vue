@@ -45,6 +45,9 @@ watch(
 
 svg {
   --lightness: 90%;
+  width: 100%;
+  aspect-ratio: 1/1;
+
   fill: hsl(var(--hue) 100% var(--lightness));
   stroke: hsl(var(--hue) 100% 50%);
 }
