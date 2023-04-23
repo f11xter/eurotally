@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
-import HomeView from "@/views/HomeView.vue"
+import LoginView from "@/views/LoginView.vue"
 import pb from "@/pb";
 
 declare module "vue-router" {
@@ -13,18 +13,13 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView
+      name: "login",
+      component: LoginView
     },
     {
-      path: "/list",
-      name: "list",
-      component: () => import("@/views/ListView.vue"),
-    },
-    {
-      path: "/vote",
-      name: "vote",
-      component: () => import("@/views/ListView.vue"),
+      path: "/account",
+      name: "account",
+      component: () => import("@/views/AccountView.vue"),
       meta: { requiresAuth: true },
     },
     {
@@ -39,7 +34,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   if (to.meta.requiresAuth && !pb.authStore.isValid) {
     return {
-      name: "home",
+      name: "login",
       query: { redirect: to.fullPath },
     }
   }
@@ -48,7 +43,7 @@ router.beforeEach((to, from) => {
 // redirect to log in if user signs out
 pb.authStore.onChange(() => {
   if (!pb.authStore.isValid) {
-    router.push({ name: "home" });
+    router.push({ name: "login" });
   }
 });
 
