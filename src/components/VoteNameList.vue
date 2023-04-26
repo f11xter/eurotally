@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, type Ref } from 'vue';
+import { ref, watch, nextTick, computed } from 'vue';
 
 const props = defineProps<{
   votes: {
-    id: string,
-    name: string,
-    score: number,
-  }[]
+    id: string;
+    name: string;
+    score: number;
+  }[];
 }>();
 
-const outer: Ref<HTMLElement | null> = ref(null);
+const outer = ref<HTMLElement | null>(null);
 const overflow = ref(false);
 const list = ref(props.votes);
 
@@ -29,7 +29,7 @@ watch(
       } else {
         overflow.value = false;
       }
-    })
+    });
   },
   { immediate: true }
 );
@@ -38,7 +38,7 @@ const animationDuration = computed(() => {
   if (outer.value) {
     return `${outer.value?.scrollWidth / 30}s`;
   } else {
-    return "0s";
+    return '0s';
   }
 });
 </script>
@@ -47,7 +47,14 @@ const animationDuration = computed(() => {
   <div class="outer" ref="outer" :class="{ overflow: overflow }">
     <div class="inner" :style="{ animationDuration: animationDuration }">
       <p v-if="list.length === 0">No votes yet...</p>
-      <p v-for="vote in list" class="name" :style="{ '--hue': 190 + 16 * vote.score }" :key="vote.id">{{ vote.name }}</p>
+      <p
+        v-for="vote in list"
+        class="name"
+        :style="{ '--hue': 190 + 16 * vote.score }"
+        :key="vote.id"
+      >
+        {{ vote.name }}
+      </p>
     </div>
   </div>
 </template>
@@ -61,8 +68,20 @@ const animationDuration = computed(() => {
 }
 
 .outer.overflow {
-  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
 }
 
 .inner {

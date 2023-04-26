@@ -1,1 +1,1 @@
-export type AlertBannerLevel = "info" | "error";
+export type AlertBannerLevel = 'info' | 'error';

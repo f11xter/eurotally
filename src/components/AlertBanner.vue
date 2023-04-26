@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type {AlertBannerLevel} from "@/types/alertBannerLevel"
+import type { AlertBannerLevel } from '@/types/alertBannerLevel';
 
-defineProps<{ active: boolean, level: AlertBannerLevel, msg: string }>();
-
+defineProps<{ active: boolean; level: AlertBannerLevel; msg: string }>();
 </script>
 
 <template>
-  <div :data-level="level" :class="{ active: active }" class="alert-banner-container | shadow children-no-margin transition-short">
+  <div
+    :data-level="level"
+    :class="{ active: active }"
+    class="alert-banner-container | shadow children-no-margin transition-short"
+  >
     <p>{{ msg }}</p>
   </div>
 </template>
@@ -28,11 +31,11 @@ defineProps<{ active: boolean, level: AlertBannerLevel, msg: string }>();
   transform: translateY(0);
 }
 
-div[data-level="info"] {
+[data-level='info'] {
   background-color: hsl(200 100% 80%);
 }
 
-div[data-level="error"] {
+[data-level='error'] {
   background-color: hsl(0 100% 80%);
 }
 </style>
