@@ -8,7 +8,7 @@ import {
   Collections,
   type VotesResponse,
 } from '@/types/pocketbase-types';
-import { inject, ref, computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 type TExpandUser = {
@@ -36,13 +36,19 @@ const icons = [
 ];
 
 const route = useRoute();
-const showAlertBanner = inject<Function>('showAlertBanner') as Function;
 
 /** countries data `{ id, country, song, band, flag, profile }` */
 const countries = ref<CountriesResponse[]>([]);
 
 /** `true` when countries data loaded */
 const isLoaded = ref(false);
+
+/** `true` when countries list showing */
+const isListExpanded = ref(false);
+/** sets position of bottom nav to show countries list */
+const bottomNavPos = computed(() =>
+  isListExpanded.value ? 'top: 0;' : 'top: calc(100vh - var(--button-height));'
+);
 
 /** index of current country in `countries` */
 const index = ref(0);
@@ -100,6 +106,9 @@ watch([countries, () => route.params.country], () => {
   index.value = i;
   prev.value = i === 0 ? countries.value.length - 1 : i - 1;
   next.value = (i + 1) % countries.value.length;
+
+  // close countries list
+  isListExpanded.value = false;
 
   getInitialVotes(countries.value[i].id);
   subscribeToVotes(countries.value[i].id);
@@ -224,12 +233,12 @@ function updateVote(category: string, score: number) {
 </script>
 
 <template>
-  <div class="container" :style="{ backgroundImage: backgroundImage }">
+  <div class="container | flex" :style="{ backgroundImage: backgroundImage }">
     <main v-if="isLoaded" class="grid">
       <VoteCategory
         v-for="(c, index) in categories"
         :title="c"
-        :votes="votes.filter((x) => x.category === c && x.uid !== UID)"
+        :votes="votes.filter((x) => x.category === c)"
         :score="userVotes[c]"
         :key="c"
         @update-score="(score) => updateVote(c, score)"
@@ -238,99 +247,144 @@ function updateVote(category: string, score: number) {
       </VoteCategory>
     </main>
 
-    <nav v-if="isLoaded" class="bottomNav | shadow">
-      <img
-        :src="countries[index].flag"
-        :alt="countries[index].country + ' flag'"
-        onerror="this.style.display = 'none'"
-      />
+    <div class="nav-container | inline-size:100% shadow | bg-solid">
+      <nav
+        v-if="isLoaded"
+        class="flex align-items:center justify-content:space-around"
+      >
+        <img
+          :src="countries[index].flag"
+          :alt="countries[index].country + ' flag'"
+          onerror="this.style.display = 'none'"
+        />
 
-      <RouterLink :to="'/vote/' + countries[prev].country">
-        <i class="iconoir-arrow-left"></i>
-      </RouterLink>
+        <RouterLink :to="'/vote/' + countries[prev].country">
+          <i class="iconoir-arrow-left"></i>
+        </RouterLink>
 
-      <div>
-        <h1>{{ countries[index].country.replace('-', ' ') }}</h1>
-        <p>{{ countries[index].band }}</p>
-        <p>{{ countries[index].song }}</p>
+        <div>
+          <h1 class="capitalize">
+            {{ countries[index].country.replace('-', ' ') }}
+          </h1>
+          <p>{{ countries[index].band }}</p>
+          <p>{{ countries[index].song }}</p>
+        </div>
+
+        <RouterLink :to="'/vote/' + countries[next].country">
+          <i class="iconoir-arrow-right"></i>
+        </RouterLink>
+      </nav>
+
+      <div v-else>
+        <p>Loading...</p>
       </div>
+    </div>
 
-      <RouterLink :to="'/vote/' + countries[next].country">
-        <i class="iconoir-arrow-right"></i>
-      </RouterLink>
-    </nav>
+    <div
+      class="drawer | inline-size:100% transition:200ms | bg-solid"
+      :style="bottomNavPos"
+    >
+      <button
+        type="button"
+        class="inline-size:100% | bg-muted"
+        @click="isListExpanded = !isListExpanded"
+      >
+        <i v-if="isListExpanded" class="iconoir-nav-arrow-down"></i>
+        <i v-else class="iconoir-playlist"></i>
+      </button>
 
-    <div v-else class="bottomNav | shadow">
-      <p>Loading...</p>
+      <div class="list">
+        <nav>
+          <p v-for="country in countries" :key="country.id">
+            <RouterLink :to="'/vote/' + country.country" class="capitalize">
+              {{ country.country.replace('-', ' ') }}
+            </RouterLink>
+            &mdash;
+            {{ country.song }}
+          </p>
+        </nav>
+      </div>
     </div>
   </div>
-
-  <button
-    type="button"
-    @click="showAlertBanner('hi there', 'error')"
-    style="position: absolute; bottom: 1rem"
-  >
-    alert
-  </button>
 </template>
 
 <style scoped>
 .container {
-  --footer-height: 8rem;
+  --nav-height: 8rem;
+  --button-height: 3rem;
 
   position: relative;
-  display: flex;
   flex-direction: column;
-  height: 100vh;
+  block-size: 100vh;
 
   background-size: cover;
   background-position: 50% 50%;
+
+  overflow: hidden;
 }
 
 main {
   flex: 1;
-
   padding: 0.5rem;
-  padding-bottom: calc(var(--footer-height) + 0.5rem);
-
+  padding-block-end: calc(var(--nav-height) + var(--button-height) + 0.5rem);
   overflow: scroll;
 }
 
-.bottomNav {
+.nav-container {
   position: absolute;
-  bottom: 0;
-  height: var(--footer-height);
-  width: 100%;
-
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 1rem;
-
-  padding: 2.5rem 0.5rem;
-  padding-bottom: 1rem;
+  bottom: var(--button-height);
+  block-size: var(--nav-height);
   border-radius: 1rem 1rem 0 0;
-  background-color: hsl(0 100% 100%);
 }
 
-nav > img {
-  position: absolute;
-  height: 5rem;
-  top: -2.5rem;
-  left: 50%;
-  translate: -50% 0;
+.nav-container nav {
+  position: relative;
+  padding-block: 2.5rem 0.5rem;
 }
 
-nav > div > * {
-  width: fit-content;
+.nav-container :is(h1, p) {
+  inline-size: fit-content;
   margin: 0 auto;
 }
 
-nav h1 {
-  text-transform: capitalize;
+.nav-container img {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  block-size: 5rem;
+  translate: -50% -50%;
 }
 
-nav i {
-  color: black;
+.drawer {
+  position: absolute;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.drawer button {
+  block-size: var(--button-height);
+  border-block-end: 2px solid var(--c-border);
+}
+
+.drawer button:is(:hover, :focus-visible) {
+  filter: brightness(90%);
+}
+
+.drawer i {
+  margin-block: 0.5rem;
+  vertical-align: middle;
+}
+
+.drawer .list {
+  block-size: calc(100vh - var(--button-height));
+  overflow: scroll;
+}
+
+.drawer p {
+  margin: 0;
+  padding: 1rem;
+}
+
+.drawer p:nth-child(even) {
+  background: var(--c-muted);
 }
 </style>

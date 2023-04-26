@@ -1,4 +1,5 @@
 :root {
+  --c-muted: hsl(0 0% 90%);
   --c-border: hsl(0 0% 60%);
   --c-accent-bg: hsl(50, 100%, 60%);
 }
@@ -16,21 +17,49 @@ html {
 }
 
 body {
-  min-height: 100vh;
-  font-size: 18px;
+  min-block-size: 100vh;
+  font-size: 1.2rem;
   margin: 0;
+}
+
+a {
+  color: black;
+}
+
+button {
+  border: none;
 }
 
 i[class*='iconoir-'] {
   font-size: 1.5em;
 }
 
+/* Composition */
+
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
+}
+
 .children-no-margin > * {
   margin: 0;
 }
 
-.flow > * + * {
-  margin-top: var(--gap, 1em);
+.flex {
+  display: flex;
+}
+
+.justify-content\:space-around {
+  justify-content: space-around;
+}
+
+.align-items\:center {
+  align-items: center;
+}
+
+.icon-label {
+  display: flex;
+  align-items: center;
+  gap: var(--icon-gap, 1ch);
 }
 
 .grid {
@@ -51,12 +80,10 @@ i[class*='iconoir-'] {
   }
 }
 
-.flex {
-  display: flex;
-}
+/* Utility */
 
-.align-items-center {
-  align-items: center;
+.capitalize {
+  text-transform: capitalize;
 }
 
 .shadow {
@@ -67,12 +94,28 @@ i[class*='iconoir-'] {
   backdrop-filter: blur(2px);
 }
 
-.transition-short {
+.transition\:100ms {
   transition-duration: 100ms;
 }
 
-.icon-label {
-  display: flex;
-  align-items: center;
-  gap: var(--icon-gap, 1ch);
+.transition\:200ms {
+  transition-duration: 200ms;
+}
+
+.inline-size\:100\% {
+  inline-size: 100%;
+}
+
+/* Design Tokens */
+
+.bg-solid {
+  background: hsl(0 0% 100%);
+}
+
+.bg-muted {
+  background: var(--c-muted);
+}
+
+.bg-translucent {
+  background: hsl(0 0% 100% / 0.8);
 }
