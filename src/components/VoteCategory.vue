@@ -3,6 +3,7 @@ import type { Vote } from '@/types/client-types';
 import { computed } from 'vue';
 import VoteHearts from './VoteHearts.vue';
 import VoteNameList from './VoteNameList.vue';
+import pb from '@/pb';
 
 const props = defineProps<{
   title: string;
@@ -13,13 +14,15 @@ const props = defineProps<{
 defineEmits<{ (e: 'updateScore', score: number): void }>();
 
 const extracted = computed(() =>
-  props.votes.map((x) => {
-    return {
-      id: x.id,
-      name: x.username,
-      score: x.score,
-    };
-  })
+  props.votes
+    .filter((x) => x.uid != pb.authStore.model?.id)
+    .map((x) => {
+      return {
+        id: x.id,
+        name: x.username,
+        score: x.score,
+      };
+    })
 );
 
 const avg = computed(() =>
@@ -31,8 +34,8 @@ const avg = computed(() =>
 </script>
 
 <template>
-  <div class="vote-category-container | blur flow shadow">
-    <div class="flex align-items-center children-no-margin">
+  <div class="vote-category-container | blur flow shadow | bg-translucent">
+    <div class="flex align-items:center children-no-margin">
       <h2 class="icon-label"><slot></slot>{{ title }}</h2>
       <p>avg: {{ avg }}</p>
     </div>
@@ -53,7 +56,6 @@ const avg = computed(() =>
   padding: 1rem;
 
   border-radius: 1rem;
-  background-color: hsl(0 0% 100% / 0.8);
 }
 
 h2 {
