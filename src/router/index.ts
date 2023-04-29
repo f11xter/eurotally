@@ -5,6 +5,7 @@ import pb from '@/pb';
 declare module 'vue-router' {
   interface RouteMeta {
     requiresAuth?: boolean;
+    noNavBar?: boolean;
   }
 }
 
@@ -15,12 +16,39 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: LoginView,
+      meta: {noNavBar: true},
     },
     {
       path: '/account',
-      name: 'account',
       component: () => import('@/views/AccountView.vue'),
       meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          name: 'account',
+          component: () => import('@/views/RequestsView.vue'),
+        },
+        {
+          path: 'requests',
+          name: 'requests',
+          component: () => import('@/views/RequestsView.vue'),
+        },
+        {
+          path: 'following',
+          name: 'following',
+          component: () => import('@/views/FollowingView.vue'),
+        },
+        {
+          path: 'followers',
+          name: 'followers',
+          component: () => import('@/views/FollowersView.vue'),
+        },
+      ],
+    },
+    {
+      path: '/vote',
+      name: 'vote',
+      redirect: '/vote/albania',
     },
     {
       path: '/vote/:country',
