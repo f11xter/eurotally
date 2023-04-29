@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import pb from '@/pb';
-import { ClientRelations } from '@/types/client-types';
+import { ClientRelations } from '@/helpers/client-types';
 import {
   Collections,
   RelationsStateOptions,
   type RelationsResponse,
   type UsersResponse,
   type RecordIdString,
-} from '@/types/pocketbase-types';
+} from '@/helpers/pocketbase-types';
 
 const props = defineProps<{
   user: UsersResponse;

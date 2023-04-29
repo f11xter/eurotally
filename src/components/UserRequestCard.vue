@@ -5,7 +5,7 @@ import {
   type UsersResponse,
   type RecordIdString,
   RelationsStateOptions,
-} from '@/types/pocketbase-types';
+} from '@/helpers/pocketbase-types';
 
 const props = defineProps<{
   accepted: boolean;

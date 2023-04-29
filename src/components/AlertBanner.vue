@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AlertBannerLevel } from '@/types/alertBannerLevel';
+import type { AlertBannerLevel } from '@/helpers/alertBannerLevel';
 
 defineProps<{ active: boolean; level: AlertBannerLevel; msg: string }>();
 </script>
@@ -8,7 +8,7 @@ defineProps<{ active: boolean; level: AlertBannerLevel; msg: string }>();
   <div
     :data-level="level"
     :class="{ active: active }"
-    class="alert-banner-container | shadow children-no-margin transition-short"
+    class="alert-banner-container | shadow children-no-margin transition:100ms"
   >
     <p>{{ msg }}</p>
   </div>

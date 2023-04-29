@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import pb from '@/pb';
-import { Collections } from '@/types/pocketbase-types';
+import { Collections } from '@/helpers/pocketbase-types';
 import { ref } from 'vue';
 import type { LocationQueryValue } from 'vue-router';
 import { useRoute, useRouter } from 'vue-router';
@@ -19,7 +19,7 @@ function logIn(username: string, password: string) {
     .authWithPassword(username, password)
     .then(() => {
       router.push(
-        (route.query.redirect as LocationQueryValue) ?? '/vote/albania'
+        (route.query.redirect as LocationQueryValue) ?? '/account'
       );
     })
     .catch(() => {

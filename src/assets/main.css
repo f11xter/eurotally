@@ -1,7 +1,10 @@
 :root {
+  --c-solid: hsl(0 0% 100%);
+  --c-translucent: hsl(0 0% 100% / 0.8);
   --c-muted: hsl(0 0% 90%);
   --c-border: hsl(0 0% 60%);
   --c-accent-bg: hsl(50, 100%, 60%);
+  --shadow: 0 0 var(--blur, 1rem) 0 hsl(0 0% 20% / 0.5);
 }
 
 *,
@@ -32,16 +35,17 @@ button {
 
 i[class*='iconoir-'] {
   font-size: 1.5em;
+  vertical-align: middle;
 }
 
 /* Composition */
 
-.flow > * + * {
-  margin-top: var(--flow-space, 1em);
-}
-
 .children-no-margin > * {
   margin: 0;
+}
+
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
 }
 
 .flex {
@@ -50,6 +54,10 @@ i[class*='iconoir-'] {
 
 .justify-content\:space-around {
   justify-content: space-around;
+}
+
+.justify-content\:center {
+  justify-content: center;
 }
 
 .align-items\:center {
@@ -80,6 +88,14 @@ i[class*='iconoir-'] {
   }
 }
 
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
 /* Utility */
 
 .capitalize {
@@ -87,11 +103,15 @@ i[class*='iconoir-'] {
 }
 
 .shadow {
-  box-shadow: 0 0 var(--blur, 1rem) 0 hsl(0 0% 20% / 0.5);
+  box-shadow: var(--shadow);
 }
 
 .blur {
   backdrop-filter: blur(2px);
+}
+
+.padding\:0\.5em {
+  padding: 0.5em;
 }
 
 .transition\:100ms {
@@ -109,7 +129,7 @@ i[class*='iconoir-'] {
 /* Design Tokens */
 
 .bg-solid {
-  background: hsl(0 0% 100%);
+  background: var(--c-solid);
 }
 
 .bg-muted {
@@ -117,5 +137,5 @@ i[class*='iconoir-'] {
 }
 
 .bg-translucent {
-  background: hsl(0 0% 100% / 0.8);
+  background: var(--c-translucent);
 }

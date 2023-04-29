@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import VoteCategory from '@/components/VoteCategory.vue';
 import pb from '@/pb';
-import type { Vote } from '@/types/client-types';
+import type { Vote } from '@/helpers/client-types';
 import {
   type UsersResponse,
   type CountriesResponse,
   Collections,
   type VotesResponse,
-} from '@/types/pocketbase-types';
+} from '@/helpers/pocketbase-types';
 import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -46,8 +46,8 @@ const isLoaded = ref(false);
 /** `true` when countries list showing */
 const isListExpanded = ref(false);
 /** sets position of bottom nav to show countries list */
-const bottomNavPos = computed(() =>
-  isListExpanded.value ? 'top: 0;' : 'top: calc(100vh - var(--button-height));'
+const bottomNavTop = computed(() =>
+  isListExpanded.value ? '0' : 'calc(100vh - var(--nav-height) - var(--button-height))'
 );
 
 /** index of current country in `countries` */
@@ -233,7 +233,10 @@ function updateVote(category: string, score: number) {
 </script>
 
 <template>
-  <div class="container | flex" :style="{ backgroundImage: backgroundImage }">
+  <div
+    class="container | flex relative"
+    :style="{ backgroundImage: backgroundImage }"
+  >
     <main v-if="isLoaded" class="grid">
       <VoteCategory
         v-for="(c, index) in categories"
@@ -246,15 +249,13 @@ function updateVote(category: string, score: number) {
         <i :class="icons[index]"></i>
       </VoteCategory>
     </main>
-
-    <div class="nav-container | inline-size:100% shadow | bg-solid">
-      <nav
-        v-if="isLoaded"
-        class="flex align-items:center justify-content:space-around"
-      >
+    
+    <div class="details | absolute inline-size:100% shadow bg-solid">
+      <nav v-if="isLoaded" class="relative flex align-items:center">
         <img
           :src="countries[index].flag"
           :alt="countries[index].country + ' flag'"
+          class="absolute"
           onerror="this.style.display = 'none'"
         />
 
@@ -262,7 +263,7 @@ function updateVote(category: string, score: number) {
           <i class="iconoir-arrow-left"></i>
         </RouterLink>
 
-        <div>
+        <div class="children-no-margin">
           <h1 class="capitalize">
             {{ countries[index].country.replace('-', ' ') }}
           </h1>
@@ -281,41 +282,41 @@ function updateVote(category: string, score: number) {
     </div>
 
     <div
-      class="drawer | inline-size:100% transition:200ms | bg-solid"
-      :style="bottomNavPos"
+      class="drawer | absolute inline-size:100% transition:200ms bg-solid"
+      :style="{ top: bottomNavTop }"
     >
       <button
         type="button"
-        class="inline-size:100% | bg-muted"
+        class="inline-size:100% bg-muted"
+        :style="{
+          'border-block-end': isListExpanded ? '2px solid var(--c-border)' : '',
+        }"
         @click="isListExpanded = !isListExpanded"
       >
         <i v-if="isListExpanded" class="iconoir-nav-arrow-down"></i>
         <i v-else class="iconoir-playlist"></i>
       </button>
 
-      <div class="list">
-        <nav>
-          <p v-for="country in countries" :key="country.id">
-            <RouterLink :to="'/vote/' + country.country" class="capitalize">
-              {{ country.country.replace('-', ' ') }}
-            </RouterLink>
-            &mdash;
-            {{ country.song }}
-          </p>
-        </nav>
-      </div>
+      <nav class="children-no-margin">
+        <p v-for="country in countries" :key="country.id">
+          <RouterLink :to="'/vote/' + country.country" class="capitalize">
+            {{ country.country.replace('-', ' ') }}
+          </RouterLink>
+          &mdash;
+          {{ country.song }}
+        </p>
+      </nav>
     </div>
   </div>
 </template>
 
 <style scoped>
 .container {
-  --nav-height: 8rem;
+  --details-height: 8rem;
   --button-height: 3rem;
 
-  position: relative;
   flex-direction: column;
-  block-size: 100vh;
+  block-size: calc(100vh - var(--nav-height));
 
   background-size: cover;
   background-position: 50% 50%;
@@ -326,29 +327,37 @@ function updateVote(category: string, score: number) {
 main {
   flex: 1;
   padding: 0.5rem;
-  padding-block-end: calc(var(--nav-height) + var(--button-height) + 0.5rem);
+  padding-block-end: calc(
+    var(--details-height) + var(--button-height) + 0.5rem
+  );
   overflow: scroll;
 }
 
-.nav-container {
-  position: absolute;
+.details {
   bottom: var(--button-height);
-  block-size: var(--nav-height);
+  block-size: var(--details-height);
   border-radius: 1rem 1rem 0 0;
 }
 
-.nav-container nav {
-  position: relative;
+.details nav {
   padding-block: 2.5rem 0.5rem;
 }
 
-.nav-container :is(h1, p) {
-  inline-size: fit-content;
-  margin: 0 auto;
+.details a {
+  margin-inline: 1.5rem;
 }
 
-.nav-container img {
-  position: absolute;
+.details div {
+  flex: 1;
+  overflow: hidden;
+}
+
+.details :is(h1, p) {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.details img {
   left: 50%;
   top: 0;
   block-size: 5rem;
@@ -356,13 +365,11 @@ main {
 }
 
 .drawer {
-  position: absolute;
   border-radius: 1rem 1rem 0 0;
 }
 
 .drawer button {
   block-size: var(--button-height);
-  border-block-end: 2px solid var(--c-border);
 }
 
 .drawer button:is(:hover, :focus-visible) {
@@ -371,16 +378,14 @@ main {
 
 .drawer i {
   margin-block: 0.5rem;
-  vertical-align: middle;
 }
 
-.drawer .list {
+.drawer nav {
   block-size: calc(100vh - var(--button-height));
   overflow: scroll;
 }
 
 .drawer p {
-  margin: 0;
   padding: 1rem;
 }
 

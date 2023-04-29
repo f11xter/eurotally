@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Vote } from '@/types/client-types';
+import type { Vote } from '@/helpers/client-types';
 import { computed } from 'vue';
 import VoteHearts from './VoteHearts.vue';
 import VoteNameList from './VoteNameList.vue';
