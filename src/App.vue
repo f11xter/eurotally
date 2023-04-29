@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { reactive, ref, provide, watch } from 'vue';
 import pb from './pb';
-import type { AlertBannerLevel } from './types/alertBannerLevel';
+import type { AlertBannerLevel } from './helpers/alertBannerLevel';
 import {
   Collections,
   type RelationsRecord,
   RelationsStateOptions,
   type UsersResponse,
-} from './types/pocketbase-types';
+} from './helpers/pocketbase-types';
 import AlertBanner from './components/AlertBanner.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const alerts = reactive<{ msg: string; level: AlertBannerLevel }[]>([]);
 let showing = false;
@@ -16,6 +19,8 @@ let showing = false;
 const alertMsg = ref('');
 const alertLevel = ref<AlertBannerLevel>('info');
 const alertActive = ref(false);
+
+const showNavBar = ref(false);
 
 provide('showAlertBanner', (msg: string, level: AlertBannerLevel) => {
   alerts.push({ msg: msg, level: level });
@@ -67,6 +72,10 @@ pb.authStore.onChange(async () => {
   }
 }, true);
 
+watch(() => route.meta, () => {
+  showNavBar.value = route.meta.noNavBar ?? true;
+})
+
 watch(alerts, () => {
   if (!showing) {
     showing = true;
@@ -100,6 +109,31 @@ watch(alerts, () => {
 <template>
   <div>
     <AlertBanner :active="alertActive" :level="alertLevel" :msg="alertMsg" />
+
+    <nav v-if="showNavBar" class="padding:0.5em shadow bg-solid">
+      <RouterLink :to="{ name: 'account' }">
+        <i class="iconoir-group"></i>
+      </RouterLink>
+      <RouterLink :to="{ name: 'vote' }">
+        <i class="iconoir-music-double-note"></i>
+      </RouterLink>
+    </nav>
+
     <RouterView />
   </div>
 </template>
+
+<style>
+:root {
+  --nav-height: 3rem;
+}
+</style>
+
+<style scoped>
+nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  block-size: var(--nav-height);
+}
+</style>
