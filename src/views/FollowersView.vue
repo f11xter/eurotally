@@ -29,21 +29,21 @@ pb.collection(Collections.Relations)
   })
   .then((usersResponse) => {
     // get relations from current user to user results
-    const conditions = usersResponse.map((x) => `to="${x.id}"`);
+    const conditions = usersResponse.map((x) => `to="${x.from}"`);
 
     let filter = `from="${UID}"`;
     if (conditions.length > 0) {
       filter += `&& (${conditions.join('||')})`;
     }
-
+    
     pb.collection(Collections.Relations)
       .getFullList<RelationsResponse>({
         filter: filter,
       })
       .then((relationsResponse) => {
         followers.value = usersResponse.map((user) => {
-          const rel = relationsResponse.find((rel) => rel.to === user.id);
-
+          const rel = relationsResponse.find((rel) => rel.to === user.from);
+          
           return {
             user: user.expand!.from,
             state: getStateString(rel?.state),
