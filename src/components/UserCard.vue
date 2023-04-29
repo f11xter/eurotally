@@ -78,10 +78,28 @@ function onClick() {
 </script>
 
 <template>
-  <p>
+  <p class="flex align-items:center">
     {{ user.username }}
-    <button @click="onClick" type="button">
+    <button class="secondary" :data-state="state" @click="onClick" type="button">
       {{ state }}
     </button>
   </p>
 </template>
+
+<style scoped>
+p {
+  justify-content: space-between;
+}
+
+button {
+  min-inline-size: 7rem;
+}
+
+button[data-state="following"] {
+  background: hsl(320 100% 80%);
+}
+
+button[data-state="pending"] {
+  background: hsl(200 100% 80%)
+}
+</style>

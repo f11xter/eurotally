@@ -39,14 +39,26 @@ function onDeny() {
 </script>
 
 <template>
-  <p>
+  <p class="flex align-items:center">
     {{ user.username }}
 
-    <span v-if="accepted">Accepted</span>
+    <span v-if="accepted" class="accepted">Accepted</span>
 
     <span v-else>
-      <button @click="onAccept" type="button">Accept</button>
-      <button @click="onDeny" type="button">×</button>
+      <button class="secondary" @click="onAccept" type="button">Accept</button>
+      <button class="bg-solid" @click="onDeny" type="button">
+        <i class="iconoir-cancel"></i>
+      </button>
     </span>
   </p>
 </template>
+
+<style scoped>
+p {
+  justify-content: space-between;
+}
+
+.accepted {
+  padding: 0.3em 0.6em;
+}
+</style>

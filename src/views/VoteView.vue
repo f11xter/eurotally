@@ -263,7 +263,7 @@ function updateVote(category: string, score: number) {
           <i class="iconoir-arrow-left"></i>
         </RouterLink>
 
-        <div class="children-no-margin">
+        <div>
           <h1 class="capitalize">
             {{ countries[index].country.replace('-', ' ') }}
           </h1>
@@ -297,7 +297,7 @@ function updateVote(category: string, score: number) {
         <i v-else class="iconoir-playlist"></i>
       </button>
 
-      <nav class="children-no-margin">
+      <nav>
         <p v-for="country in countries" :key="country.id">
           <RouterLink :to="'/vote/' + country.country" class="capitalize">
             {{ country.country.replace('-', ' ') }}

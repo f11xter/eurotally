@@ -35,7 +35,7 @@ const avg = computed(() =>
 
 <template>
   <div class="vote-category-container | blur flow shadow | bg-translucent">
-    <div class="flex align-items:center children-no-margin">
+    <div class="flex align-items:center">
       <h2 class="icon-label"><slot></slot>{{ title }}</h2>
       <p>avg: {{ avg }}</p>
     </div>

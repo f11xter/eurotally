@@ -54,34 +54,42 @@ function onSignUpClicked() {
 
 <template>
   <main>
-    <img src="@/assets/images/logo.jpg" />
+    <img src="@/assets/images/logo.jpg" class="inline-size:100%" />
 
-    <form @submit.prevent>
-      <label for="username">Name</label>
-      <input
-        v-model="username"
-        id="username"
-        :disabled="disabled"
-        type="text"
-      />
+    <form @submit.prevent class="flow">
+      <label for="username" class="flow block">
+        <span :style="{'--flow-space': '0.5em'}">Name</span>
 
-      <label for="password">Password</label>
-      <input
+        <input
+          v-model="username"
+          type="text"
+          id="username"
+          class="padding:0.5em inline-size:100%"
+          :disabled="disabled"
+          :style="{'--flow-space': '0.5em'}"
+        />
+      </label>
+
+      <label for="password" class="flow block">
+        <span :style="{'--flow-space': '0.5em'}">Password</span>
+        <input
         v-model="password"
-        id="password"
-        :disabled="disabled"
         type="password"
-      />
+        id="password"
+          class="padding:0.5em inline-size:100%"
+          :disabled="disabled" :style="{'--flow-space': '0.5em'}"
+        />
+      </label>
 
       <p v-if="error" class="error">
         {{ error }}
       </p>
 
       <div>
-        <button @click="onSignUpClicked" :disabled="disabled" type="submit">
+        <button class="secondary" @click="onSignUpClicked" :disabled="disabled" type="submit">
           Sign Up
         </button>
-        <button @click="onLogInClicked" :disabled="disabled" type="submit">
+        <button class="primary" @click="onLogInClicked" :disabled="disabled" type="submit">
           Log In
         </button>
       </div>
@@ -90,24 +98,19 @@ function onSignUpClicked() {
 </template>
 
 <style scoped>
-img {
-  max-width: 100%;
-}
-
 form {
   padding: 1em;
+}
+
+input {
+  border-radius: 0.5em;
+  border: 1px solid var(--c-border);
 }
 
 form > div {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1em;
-}
-
-form > :is(input, p) {
-  display: block;
-  inline-size: 100%;
-  margin-block: 0 1em;
 }
 
 .error {

@@ -56,7 +56,7 @@ pb.collection(Collections.Relations)
 </script>
 
 <template>
-  <main class="flow children-no-margin | bg-solid">
+  <main class="flow | padding:0.5em bg-solid">
     <p v-if="isLoading">Loading...</p>
     <p v-else-if="followers.length === 0">No followers</p>
 

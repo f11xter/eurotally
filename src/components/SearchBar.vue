@@ -104,7 +104,7 @@ function onClick() {
 
       <div
         v-if="isFocused && searchResults.length > 0"
-        class="flow children-no-margin"
+        class="flow padding:0.5em"
       >
         <UserCard
           v-for="entry in searchResults"

@@ -51,7 +51,7 @@ function onRequestUpdate(entry: UserRequest, accepted: boolean) {
 </script>
 
 <template>
-    <main class="flow children-no-margin | bg-solid">
+    <main class="flow | padding:0.5em bg-solid">
       <p v-if="isLoading">Loading...</p>
       <p v-else-if="requests.length === 0">No follow requests</p>
   
