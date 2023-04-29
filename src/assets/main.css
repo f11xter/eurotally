@@ -60,11 +60,11 @@ i[class*='iconoir-'] {
 
 /* Composition */
 
-.children-no-margin>* {
+.children-no-margin > * {
   margin: 0;
 }
 
-.flow>*+* {
+.flow > * + * {
   margin-top: var(--flow-space, 1em);
 }
 

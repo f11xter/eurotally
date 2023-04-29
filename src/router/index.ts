@@ -14,13 +14,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/vote/albania'
+      redirect: '/vote',
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-      meta: {showNavBar: false},
+      meta: { showNavBar: false },
     },
     {
       path: '/account',

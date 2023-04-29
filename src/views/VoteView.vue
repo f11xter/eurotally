@@ -47,7 +47,9 @@ const isLoaded = ref(false);
 const isListExpanded = ref(false);
 /** sets position of bottom nav to show countries list */
 const bottomNavTop = computed(() =>
-  isListExpanded.value ? '0' : 'calc(100vh - var(--nav-height) - var(--button-height))'
+  isListExpanded.value
+    ? '0'
+    : 'calc(100vh - var(--nav-height) - var(--button-height))'
 );
 
 /** index of current country in `countries` */
@@ -249,7 +251,7 @@ function updateVote(category: string, score: number) {
         <i :class="icons[index]"></i>
       </VoteCategory>
     </main>
-    
+
     <div class="details | absolute inline-size:100% shadow bg-solid">
       <nav v-if="isLoaded" class="relative flex align-items:center">
         <img

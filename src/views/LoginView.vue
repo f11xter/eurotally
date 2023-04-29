@@ -18,9 +18,7 @@ function logIn(username: string, password: string) {
   pb.collection(Collections.Users)
     .authWithPassword(username, password)
     .then(() => {
-      router.push(
-        (route.query.redirect as LocationQueryValue) ?? '/account'
-      );
+      router.push((route.query.redirect as LocationQueryValue) ?? '/account');
     })
     .catch(() => {
       disabled.value = false;
@@ -54,11 +52,11 @@ function onSignUpClicked() {
 
 <template>
   <main>
-    <img src="@/assets/images/logo.jpg" class="inline-size:100%" />
+    <img src="@/assets/images/logo.jpg" />
 
     <form @submit.prevent class="flow">
       <label for="username" class="flow block">
-        <span :style="{'--flow-space': '0.5em'}">Name</span>
+        <span :style="{ '--flow-space': '0.5em' }">Name</span>
 
         <input
           v-model="username"
@@ -66,18 +64,19 @@ function onSignUpClicked() {
           id="username"
           class="padding:0.5em inline-size:100%"
           :disabled="disabled"
-          :style="{'--flow-space': '0.5em'}"
+          :style="{ '--flow-space': '0.5em' }"
         />
       </label>
 
       <label for="password" class="flow block">
-        <span :style="{'--flow-space': '0.5em'}">Password</span>
+        <span :style="{ '--flow-space': '0.5em' }">Password</span>
         <input
-        v-model="password"
-        type="password"
-        id="password"
+          v-model="password"
+          type="password"
+          id="password"
           class="padding:0.5em inline-size:100%"
-          :disabled="disabled" :style="{'--flow-space': '0.5em'}"
+          :disabled="disabled"
+          :style="{ '--flow-space': '0.5em' }"
         />
       </label>
 
@@ -86,10 +85,20 @@ function onSignUpClicked() {
       </p>
 
       <div>
-        <button class="secondary" @click="onSignUpClicked" :disabled="disabled" type="submit">
+        <button
+          class="secondary"
+          @click="onSignUpClicked"
+          :disabled="disabled"
+          type="submit"
+        >
           Sign Up
         </button>
-        <button class="primary" @click="onLogInClicked" :disabled="disabled" type="submit">
+        <button
+          class="primary"
+          @click="onLogInClicked"
+          :disabled="disabled"
+          type="submit"
+        >
           Log In
         </button>
       </div>
@@ -98,6 +107,12 @@ function onSignUpClicked() {
 </template>
 
 <style scoped>
+img {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
+
 form {
   padding: 1em;
 }
