@@ -28,7 +28,7 @@ const isLoading = ref(true);
 // get requests
 pb.collection(Collections.Relations)
   .getFullList<RelationsResponse<TExpandFrom>>({
-    filter: `to="${UID}" && state="${RelationsStateOptions.follow}"`,
+    filter: `to="${UID}" && state="${RelationsStateOptions.f_request}"`,
     expand: 'from',
     $cancelKey: 'requests',
   })
@@ -51,19 +51,19 @@ function onRequestUpdate(entry: UserRequest, accepted: boolean) {
 </script>
 
 <template>
-    <main class="flow | padding:0.5em bg-solid">
-      <p v-if="isLoading">Loading...</p>
-      <p v-else-if="requests.length === 0">No follow requests</p>
-  
-      <UserRequestCard
-        v-for="entry in requests"
-        :key="entry.id"
-        :accepted="entry.accepted"
-        :record-id="entry.id"
-        :user="entry.user"
-        @update="(accepted) => onRequestUpdate(entry, accepted)"
-      />
-    </main>
+  <main class="flow | padding:0.5em bg-solid">
+    <p v-if="isLoading">Loading...</p>
+    <p v-else-if="requests.length === 0">No follow requests</p>
+
+    <UserRequestCard
+      v-for="entry in requests"
+      :key="entry.id"
+      :accepted="entry.accepted"
+      :record-id="entry.id"
+      :user="entry.user"
+      @update="(accepted) => onRequestUpdate(entry, accepted)"
+    />
+  </main>
 </template>
 
 <style scoped>

@@ -23,7 +23,7 @@ const isLoading = ref(true);
 // get following
 pb.collection(Collections.Relations)
   .getFullList<RelationsResponse<TExpandTo>>({
-    filter: `from="${UID}" && state="${RelationsStateOptions.accept}"`,
+    filter: `from="${UID}" && (state="${RelationsStateOptions.f_accept}" || state="${RelationsStateOptions.f_confirm}")`,
     expand: 'to',
     $cancelKey: 'following',
   })

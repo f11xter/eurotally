@@ -7,10 +7,11 @@ import { RelationsStateOptions } from './pocketbase-types';
  */
 export function getStateString(state: RelationsStateOptions | undefined) {
   switch (state) {
-    case RelationsStateOptions.follow:
+    case RelationsStateOptions.f_request:
       return ClientRelations.pending;
 
-    case RelationsStateOptions.accept:
+    case RelationsStateOptions.f_accept:
+    case RelationsStateOptions.f_confirm:
       return ClientRelations.following;
 
     default:

@@ -42,10 +42,12 @@ export type CountriesRecord = {
 };
 
 export enum RelationsStateOptions {
-  'follow' = 'follow',
-  'accept' = 'accept',
-  'deny' = 'deny',
-  'unfollow' = 'unfollow',
+  'f_request' = 'f_request',
+  'f_accept' = 'f_accept',
+  'f_confirm' = 'f_confirm',
+  'f_deny' = 'f_deny',
+  'u_request' = 'u_request',
+  'u_confirm' = 'u_confirm',
 }
 export type RelationsRecord = {
   from: RecordIdString;

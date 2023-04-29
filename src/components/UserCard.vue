@@ -26,6 +26,12 @@ function setState(oldState: ClientRelations) {
   }
 }
 
+/**
+ * Updates relation based on current server state and action user believes they performed
+ * @param id relation id
+ * @param serverState relation state on server
+ * @param clientState relation state as shown to client
+ */
 function updateRelation(
   id: RecordIdString,
   serverState: RelationsStateOptions,
@@ -33,19 +39,21 @@ function updateRelation(
 ) {
   if (
     clientState === ClientRelations.follow &&
-    (serverState === RelationsStateOptions.deny ||
-      serverState === RelationsStateOptions.unfollow)
+    (serverState === RelationsStateOptions.f_deny ||
+      serverState === RelationsStateOptions.u_request ||
+      serverState === RelationsStateOptions.u_confirm)
   ) {
     pb.collection(Collections.Relations).update(id, {
-      state: RelationsStateOptions.follow,
+      state: RelationsStateOptions.f_request,
     });
   } else if (
     (clientState === ClientRelations.following ||
       clientState === ClientRelations.pending) &&
-    serverState !== RelationsStateOptions.unfollow
+    serverState !== RelationsStateOptions.u_request &&
+    serverState !== RelationsStateOptions.u_confirm
   ) {
     pb.collection(Collections.Relations).update(id, {
-      state: RelationsStateOptions.unfollow,
+      state: RelationsStateOptions.u_request,
     });
 
     pb.collection(Collections.Users).update(pb.authStore.model!.id, {
@@ -71,7 +79,7 @@ function onClick() {
       pb.collection(Collections.Relations).create({
         from: pb.authStore.model?.id,
         to: props.user.id,
-        state: RelationsStateOptions.follow,
+        state: RelationsStateOptions.f_request,
       });
     });
 }
@@ -80,7 +88,12 @@ function onClick() {
 <template>
   <p class="flex align-items:center">
     {{ user.username }}
-    <button class="secondary" :data-state="state" @click="onClick" type="button">
+    <button
+      class="secondary"
+      :data-state="state"
+      @click="onClick"
+      type="button"
+    >
       {{ state }}
     </button>
   </p>
@@ -95,11 +108,11 @@ button {
   min-inline-size: 7rem;
 }
 
-button[data-state="following"] {
+button[data-state='following'] {
   background: hsl(320 100% 80%);
 }
 
-button[data-state="pending"] {
-  background: hsl(200 100% 80%)
+button[data-state='pending'] {
+  background: hsl(200 100% 80%);
 }
 </style>

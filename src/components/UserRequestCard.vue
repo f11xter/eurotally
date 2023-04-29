@@ -21,7 +21,7 @@ function onAccept() {
   emit('update', true);
 
   pb.collection(Collections.Relations).update(props.recordId, {
-    state: RelationsStateOptions.accept,
+    state: RelationsStateOptions.f_accept,
   });
 
   pb.collection(Collections.Users).update(pb.authStore.model!.id, {
@@ -33,7 +33,7 @@ function onDeny() {
   emit('update', false);
 
   pb.collection(Collections.Relations).update(props.recordId, {
-    state: RelationsStateOptions.deny,
+    state: RelationsStateOptions.f_deny,
   });
 }
 </script>

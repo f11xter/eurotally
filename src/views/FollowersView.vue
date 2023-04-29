@@ -23,7 +23,7 @@ const isLoading = ref(true);
 // get followers
 pb.collection(Collections.Relations)
   .getFullList<RelationsResponse<TExpandFrom>>({
-    filter: `to="${UID}" && state="${RelationsStateOptions.accept}"`,
+    filter: `to="${UID}" && (state="${RelationsStateOptions.f_accept}" || state="${RelationsStateOptions.f_confirm}")`,
     expand: 'from',
     $cancelKey: 'followers',
   })
@@ -35,7 +35,7 @@ pb.collection(Collections.Relations)
     if (conditions.length > 0) {
       filter += `&& (${conditions.join('||')})`;
     }
-    
+
     pb.collection(Collections.Relations)
       .getFullList<RelationsResponse>({
         filter: filter,
@@ -43,7 +43,7 @@ pb.collection(Collections.Relations)
       .then((relationsResponse) => {
         followers.value = usersResponse.map((user) => {
           const rel = relationsResponse.find((rel) => rel.to === user.from);
-          
+
           return {
             user: user.expand!.from,
             state: getStateString(rel?.state),

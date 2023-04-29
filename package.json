@@ -10,7 +10,7 @@
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint ./src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "typegen": "pocketbase-typegen --db ./pocketbase/pb_data/data.db --out src/types/pocketbase-types.ts"
+    "typegen": "pocketbase-typegen --db ./pocketbase/pb_data/data.db --out src/helpers/pocketbase-types.ts"
   },
   "dependencies": {
     "vue": "^3.2.47",
