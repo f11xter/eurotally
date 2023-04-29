@@ -5,7 +5,7 @@ import pb from '@/pb';
 declare module 'vue-router' {
   interface RouteMeta {
     requiresAuth?: boolean;
-    noNavBar?: boolean;
+    showNavBar?: boolean;
   }
 }
 
@@ -14,9 +14,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/vote/albania'
+    },
+    {
+      path: '/login',
       name: 'login',
       component: LoginView,
-      meta: {noNavBar: true},
+      meta: {showNavBar: false},
     },
     {
       path: '/account',

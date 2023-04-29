@@ -73,8 +73,8 @@ pb.authStore.onChange(async () => {
 }, true);
 
 watch(() => route.meta, () => {
-  showNavBar.value = route.meta.noNavBar ?? true;
-})
+  showNavBar.value = route.meta.showNavBar ?? true;  
+}, {immediate: true});
 
 watch(alerts, () => {
   if (!showing) {
