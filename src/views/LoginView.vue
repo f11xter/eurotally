@@ -128,6 +128,10 @@ form > div {
   gap: 1em;
 }
 
+button {
+  color: black;
+}
+
 .error {
   color: hsl(0 100% 60%);
 }
