@@ -37,8 +37,9 @@ export type CountriesRecord = {
   country: string;
   song: string;
   band: string;
-  flag?: string;
-  profile?: string;
+  flag: string;
+  profile: string;
+  order?: number;
 };
 
 export enum RelationsStateOptions {

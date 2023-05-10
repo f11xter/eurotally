@@ -37,7 +37,7 @@ const icons = [
 
 const route = useRoute();
 
-/** countries data `{ id, country, song, band, flag, profile }` */
+/** countries data */
 const countries = ref<CountriesResponse[]>([]);
 
 /** `true` when countries data loaded */
@@ -88,7 +88,7 @@ const userVotes = computed(() => {
 
 // get countries data
 pb.collection(Collections.Countries)
-  .getFullList<CountriesResponse>({ sort: 'country' })
+  .getFullList<CountriesResponse>({ filter: 'order > 0', sort: 'order' })
   .then((response) => {
     countries.value = response;
     isLoaded.value = true;
@@ -267,6 +267,7 @@ function updateVote(category: string, score: number) {
 
         <div>
           <h1 class="capitalize">
+            {{ countries[index].order }}.
             {{ countries[index].country.replace('-', ' ') }}
           </h1>
           <p>{{ countries[index].band }}</p>
@@ -301,6 +302,7 @@ function updateVote(category: string, score: number) {
 
       <nav>
         <p v-for="country in countries" :key="country.id">
+          {{ country.order }}.
           <RouterLink :to="'/vote/' + country.country" class="capitalize">
             {{ country.country.replace('-', ' ') }}
           </RouterLink>
