@@ -389,7 +389,7 @@ main {
 }
 
 .drawer nav {
-  block-size: calc(100vh - var(--button-height));
+  block-size: calc(100vh - var(--button-height) - var(--nav-height));
   overflow: scroll;
 }
 
