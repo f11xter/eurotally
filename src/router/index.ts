@@ -51,11 +51,11 @@ const router = createRouter({
     },
     {
       path: '/vote',
-      name: 'vote',
       redirect: '/vote/albania',
     },
     {
       path: '/vote/:country',
+      name: 'vote',
       component: () => import('@/views/VoteView.vue'),
       meta: { requiresAuth: true },
     },
@@ -68,6 +68,43 @@ router.beforeEach((to, from) => {
     return {
       name: 'login',
       query: { redirect: to.fullPath },
+    };
+  }
+
+  // set country return
+  if (
+    from.fullPath.includes('/vote') &&
+    !to.fullPath.includes('/vote') &&
+    !to.query.returnToCountry
+  ) {
+    return {
+      path: to.fullPath,
+      query: { returnToCountry: from.params.country },
+    };
+  }
+
+  // maintain country return between pages
+  if (
+    from.query.returnToCountry &&
+    !to.query.returnToCountry &&
+    !to.fullPath.includes('/vote')
+  ) {
+    return {
+      path: to.fullPath,
+      query: { returnToCountry: from.query.returnToCountry },
+    }
+  }
+
+  // use country return
+  if (
+    !from.fullPath.includes('/vote') &&
+    to.fullPath.includes('/vote') &&
+    from.query.returnToCountry &&
+    from.query.returnToCountry !== to.params.country
+  ) {
+    return {
+      name: 'vote',
+      params: { country: from.query.returnToCountry as string },
     };
   }
 });

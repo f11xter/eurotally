@@ -174,7 +174,7 @@ watch(alerts, () => {
       <RouterLink :to="{ name: 'account' }">
         <i class="iconoir-group"></i>
       </RouterLink>
-      <RouterLink :to="{ name: 'vote' }">
+      <RouterLink :to="{ path: '/vote' }">
         <i class="iconoir-music-double-note"></i>
       </RouterLink>
     </nav>
