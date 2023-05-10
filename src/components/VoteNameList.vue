@@ -53,7 +53,7 @@ const animationDuration = computed(() => {
         :style="{ '--hue': 190 + 16 * vote.score }"
         :key="vote.id"
       >
-        {{ vote.name }}
+        {{ vote.name }} &middot; {{ vote.score }}
       </p>
     </div>
   </div>
