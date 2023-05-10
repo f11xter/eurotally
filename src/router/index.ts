@@ -51,7 +51,7 @@ const router = createRouter({
     },
     {
       path: '/vote',
-      redirect: '/vote/albania',
+      redirect: '/vote/denmark',
     },
     {
       path: '/vote/:country',
@@ -92,7 +92,7 @@ router.beforeEach((to, from) => {
     return {
       path: to.fullPath,
       query: { returnToCountry: from.query.returnToCountry },
-    }
+    };
   }
 
   // use country return
