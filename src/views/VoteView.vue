@@ -27,7 +27,7 @@ const categories = [
 ];
 
 const icons = [
-  'iconoir-mic',
+  'iconoir-emoji-sing-right-note',
   'iconoir-music-double-note',
   'iconoir-running',
   'iconoir-t-shirt',
