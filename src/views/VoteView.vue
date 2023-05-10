@@ -9,7 +9,7 @@ import {
   type VotesResponse,
 } from '@/helpers/pocketbase-types';
 import { ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 type TExpandUser = {
   user: UsersResponse;
@@ -36,6 +36,7 @@ const icons = [
 ];
 
 const route = useRoute();
+const router = useRouter();
 
 /** countries data */
 const countries = ref<CountriesResponse[]>([]);
@@ -101,8 +102,11 @@ watch([countries, () => route.params.country], () => {
   const i = countries.value.findIndex((x) => x.country === param.toLowerCase());
 
   if (i === -1) {
-    // TODO: error handling - couldn't find country
-    console.error("couldn't find country");
+    console.error("Couldn't find country");
+    router.push({
+      name: 'vote',
+      params: { country: countries.value[0].country },
+    });
   }
 
   index.value = i;
