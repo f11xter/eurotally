@@ -62,7 +62,7 @@ const animationDuration = computed(() => {
 <style scoped>
 .outer {
   position: relative;
-  width: 100%;
+  width: calc(100vw - 3rem);
   overflow: hidden;
   height: 2rem;
 }
@@ -120,5 +120,6 @@ p:not(.name) {
   border: 2px solid hsl(var(--hue) 100% 50%);
   background-color: hsl(var(--hue) 100% 95%);
   user-select: none;
+  white-space: pre;
 }
 </style>
